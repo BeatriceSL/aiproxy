@@ -33,3 +33,12 @@ curl -X POST "http://localhost:8000/moa_request" \
      -H "Content-Type: application/json" \
      -d '{"question": "What are some fun things to do in SF?"}'
 
+# /combined
+curl -X POST "http://localhost:8000/combined" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "inputs": [{"role": "user", "content": "Who are you?"}],
+           "max_tokens": 800,
+           "stop": ["[INST", "[INST]", "[/INST]", "[/INST]"],
+           "model": "llama3-8b"
+         }'
