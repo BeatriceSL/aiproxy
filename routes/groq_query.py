@@ -1,30 +1,31 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import os
+from groq import Groq
 from langchain_groq import ChatGroq
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 import nest_asyncio
-from dotenv import load_dotenv
 
-load_dotenv()
+# Ensure nest_asyncio is applied before any event loop is created
+nest_asyncio.apply()
 
 router = APIRouter()
 
 class QueryRequest(BaseModel):
-    prompt_text: str
+    user_prompt: str
 
-@router.post("/groq_query")
+@router.post("/")
 async def groq_query(request: QueryRequest):
     try:
         GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
         if not GROQ_API_KEY:
             raise HTTPException(status_code=500, detail="GROQ_API_KEY is not set in environment variables")
 
-        # Initialize Embeddings
-        embed_model = FastEmbedEmbeddings(model_name="BAAI/bge-base-en-v1.5")
+        # Initialize Embeddings without extra parameters
+        embed_model = FastEmbedEmbeddings()
 
         chat_model = ChatGroq(temperature=0, model_name="llama3-70b-8192", api_key=GROQ_API_KEY)
 
@@ -46,7 +47,7 @@ async def groq_query(request: QueryRequest):
 
         qa = RetrievalQA.from_chain_type(llm=chat_model, chain_type="stuff", retriever=retriever, return_source_documents=True, chain_type_kwargs={"prompt": prompt})
 
-        response = qa.invoke({"query": request.prompt_text})
+        response = qa.invoke({"query": request.user_prompt})
 
         return {"response": response}
 
