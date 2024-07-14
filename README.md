@@ -41,9 +41,9 @@ curl -X POST "http://localhost:8000/groq_query" \
          }'
 ```
 
-7. /llamaindex
+7. /llamaindex_query
 ```
-curl -X POST "http://localhost:8000/create_vector_database" \
+curl -X POST "http://localhost:8000/llamaindex_query" \
      -H "Content-Type: application/json"
 ```
 
