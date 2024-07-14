@@ -14,3 +14,15 @@ loguru
 datasets
 typer
 rich
+fastapi
+uvicorn
+pydantic
+python-dotenv
+groq
+langchain_groq
+llama_parse
+langchain
+nest_asyncio
+fastembed
+unstructured
+markdown
