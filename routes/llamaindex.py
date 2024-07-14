@@ -1,26 +1,25 @@
-##### LLAMAPARSE #####
+from fastapi import APIRouter, HTTPException
+import os
 from llama_parse import LlamaParse
-
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain_community.document_loaders import DirectoryLoader
 from langchain_community.document_loaders import UnstructuredMarkdownLoader
-from langchain.prompts import PromptTemplate
-from langchain.chains import RetrievalQA
-from groq import Groq
-from langchain_groq import ChatGroq
 import joblib
-import os
-import nest_asyncio  # noqa: E402
-nest_asyncio.apply()
+import nest_asyncio
 from dotenv import load_dotenv
 
+nest_asyncio.apply()
 load_dotenv()
+
+router = APIRouter()
 
 def load_or_parse_data():
     data_file = "./data/parsed_data.pkl"
-    llamaparse_api_key= os.environ.get("LLAMAPARSE_API_KEY")
+    llamaparse_api_key = os.environ.get("LLAMAPARSE_API_KEY")
+
+    if not llamaparse_api_key:
+        raise ValueError("LLAMAPARSE_API_KEY is not set in environment variables")
 
     if os.path.exists(data_file):
         # Load the parsed data from the file
@@ -36,7 +35,6 @@ SOC-2 Compliance Report Parsing Instruction.
                             max_timeout=5000,)
         llama_parse_documents = parser.load_data("./data/aws-soc-2.pdf")
 
-
         # Save the parsed data to a file
         print("Saving the parse results in .pkl format ..........")
         joblib.dump(llama_parse_documents, data_file)
@@ -46,15 +44,9 @@ SOC-2 Compliance Report Parsing Instruction.
 
     return parsed_data
 
-# Create vector database
 def create_vector_database():
     """
     Creates a vector database using document loaders and embeddings.
-
-    This function loads urls,
-    splits the loaded documents into chunks, transforms them into embeddings using OllamaEmbeddings,
-    and finally persists the embeddings into a Chroma vector database.
-
     """
     # Call the function to either load or parse the data
     llama_parse_documents = load_or_parse_data()
@@ -67,16 +59,13 @@ def create_vector_database():
     markdown_path = "./data/output.md"
     loader = UnstructuredMarkdownLoader(markdown_path)
 
-   #loader = DirectoryLoader('data/', glob="**/*.md", show_progress=True)
     documents = loader.load()
     # Split loaded documents into chunks
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=100)
     docs = text_splitter.split_documents(documents)
 
-    #len(docs)
     print(f"length of documents loaded: {len(documents)}")
     print(f"total number of document chunks generated :{len(docs)}")
-    #docs[0]
 
     # Initialize Embeddings
     embed_model = FastEmbedEmbeddings(model_name="BAAI/bge-base-en-v1.5")
@@ -85,11 +74,17 @@ def create_vector_database():
     vs = Chroma.from_documents(
         documents=docs,
         embedding=embed_model,
-        persist_directory="chroma_db_llamaparse1",  # Local mode with in-memory storage only
+        persist_directory="chroma_db_llamaparse1",
         collection_name="rag"
     )
 
     print('Vector DB created successfully !')
-    return vs,embed_model
+    return vs, embed_model
 
-vs,embed_model = create_vector_database()
+@router.post("/llamaindex")
+async def create_vector_db():
+    try:
+        vs, embed_model = create_vector_database()
+        return {"message": "Vector DB created successfully!"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
