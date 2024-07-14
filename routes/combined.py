@@ -10,7 +10,7 @@ from together import AsyncTogether, Together
 
 from .query_llm import query_llm, QueryRequest
 from .stream_request import stream_request, StreamingRequest
-from .moa import run_llm, MoaRequest
+from .moa_request import run_llm, MoaRequest
 
 load_dotenv()
 

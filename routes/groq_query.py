@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import os
-from groq import Groq
 from langchain_groq import ChatGroq
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_community.vectorstores import Chroma

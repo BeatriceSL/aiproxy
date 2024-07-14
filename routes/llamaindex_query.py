@@ -81,7 +81,7 @@ def create_vector_database():
     print('Vector DB created successfully !')
     return vs, embed_model
 
-@router.post("/llamaindex")
+@router.post("/llamaindex_query")
 async def create_vector_db():
     try:
         vs, embed_model = create_vector_database()
