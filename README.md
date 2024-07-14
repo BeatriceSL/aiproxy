@@ -18,6 +18,7 @@ curl -X POST "http://localhost:8000/query_llm" \
 ```
 
 4. Call /stream_request
+```
 curl -X POST "http://localhost:8000/stream_request" \
      -H "Content-Type: application/json" \
      -d '{
@@ -26,13 +27,15 @@ curl -X POST "http://localhost:8000/stream_request" \
            "stop": ["[INST", "[INST]", "[/INST]", "[/INST]"],
            "model": "llama3-8b"
          }'
-
+```
 5. Call MoA:
+```
 curl -X POST "http://localhost:8000/moa_request" \
      -H "Content-Type: application/json" \
      -d '{"question": "What are some fun things to do in SF?"}'
+```
 
-6. Call RAG stack /groq_query
+7. Call RAG stack /groq_query
 ```
 curl -X POST "http://localhost:8000/groq_query" \
      -H "Content-Type: application/json" \
@@ -48,6 +51,7 @@ curl -X POST "http://localhost:8000/llamaindex_query" \
 ```
 
 8. Call All at once:
+```
 curl -X POST "http://localhost:8000/combined" \
      -H "Content-Type: application/json" \
      -d '{
@@ -56,4 +60,4 @@ curl -X POST "http://localhost:8000/combined" \
            "stop": ["[INST", "[INST]", "[/INST]", "[/INST]"],
            "model": "llama3-8b"
          }'
-
+```
