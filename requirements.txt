@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+openai
+python-dotenv
+typing_extensions
+requests
+pandas
+numpy
+textgrad
+asyncio
+together
+fire
+loguru
+datasets
+typer
+rich
