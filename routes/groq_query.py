@@ -11,8 +11,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-nest_asyncio.apply()
-
 router = APIRouter()
 
 class QueryRequest(BaseModel):

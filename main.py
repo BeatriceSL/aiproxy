@@ -1,5 +1,10 @@
+import os
+
+# Disable uvloop
+os.environ["UVLOOP_NO_EXTENSIONS"] = "1"
+
 from fastapi import FastAPI
-from routes import query_llm, stream_request, moa_request, combined, groq_query, llamaindex_query
+from routes import combined, query_llm, stream_request, moa_request, groq_query, llamaindex_query
 
 app = FastAPI()
 

@@ -9,7 +9,6 @@ import joblib
 import nest_asyncio
 from dotenv import load_dotenv
 
-nest_asyncio.apply()
 load_dotenv()
 
 router = APIRouter()
