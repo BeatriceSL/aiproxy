@@ -10,7 +10,7 @@ from langchain.chains import RetrievalQA
 import nest_asyncio
 
 # Ensure nest_asyncio is applied before any event loop is created
-nest_asyncio.apply()
+# nest_asyncio.apply()
 
 router = APIRouter()
 

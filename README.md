@@ -64,3 +64,36 @@ curl -X POST "http://localhost:8000/combined" \
            "model": "llama3-8b"
          }'
 ```
+
+Friends Webhook:
+```
+curl -X POST "http://127.0.0.1:8000/api/multion_webhook" -H "Content-Type: application/json" -d '{
+  "url": "https://news.ycombinator.com/",
+  "command": "Find the top comment of the top post on Hackernews."
+}'
+```
+
+Multion Webhook:
+```
+curl -X POST "http://127.0.0.1:8000/multion_webhook" -H "Content-Type: application/json" -d '{
+  "url": "https://github.com",
+  "command": "Show the contribution history screenshot of github user for last year. Provide details: how many repos contributed, what is primary language of use, how many github stars he get, what is his linkedin and twitter accounts, where he works and lives" 
+}'
+```
+
+```
+curl -X POST "http://127.0.0.1:8000/webhook" -H "Content-Type: application/json" -d '{  
+  "id": 1,                    
+  "createdAt": "2024-07-21T12:34:56",
+  "transcript": "transcript",
+  "structured": {
+    "title": "title",
+    "overview": "overview",
+    "emoji": "emoji",
+    "category": "category",
+    "actionItems": ["Action item 1", "Action item 2"]
+  },
+  "pluginsResponse": ["This is a plugin response item"],
+  "discarded": false
+}'
+```

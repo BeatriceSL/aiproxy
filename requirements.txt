@@ -3,7 +3,7 @@ uvicorn
 openai
 python-dotenv
 typing_extensions
-requests
+requests==2.32.2
 pandas
 numpy
 textgrad
@@ -26,3 +26,6 @@ nest_asyncio
 fastembed
 unstructured
 markdown
+langchain_community
+arize-phoenix[evals]
+mem0ai
