@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-.env
 # C extensions
 *.so
 logs/
@@ -28,6 +27,12 @@ share/python-wheels/
 MANIFEST
 *__pycache__
 *node_modules
+**/.ipynb_checkpoints
+**/.env
+**/__pycache__
+**/.idea
+**/venv
+.DS_Store
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
