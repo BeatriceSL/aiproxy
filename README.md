@@ -1,4 +1,7 @@
 # For use case
+# GitHero
+Securing Your GitHub Repositories with Multi-agents
+We create agents to scan through your Github repos for viruses and bugs.
 
 https://github.com/lukehollis/ai-murder-mystery-hackathon
 
